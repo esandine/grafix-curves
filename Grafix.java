@@ -405,6 +405,22 @@ public class Grafix{
 	}
     }
 
+    //Curves assignment
+    public void drawCircle(double cx, double cy, double cz, double r){
+	PointList p = new PointList();
+	double x;
+	double y;
+	for(double t = 0; t <= 1.001; t+=.01){
+	    x = r*Math.cos(t*Math.PI*2)+cx;
+	    y = r*Math.sin(t*Math.PI*2)+cy;
+	    p.addCoor(new Coor(x, y, cz));
+	    System.out.println(t);
+	}
+	p.printCoors();
+	System.out.println("YO");
+	addEdge(p);
+    }
+
     //Image writing functions
 
     //Write function copies the pixels to image file

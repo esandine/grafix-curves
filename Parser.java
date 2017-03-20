@@ -51,8 +51,11 @@ public class Parser{
 		    g.rotate(args.next().charAt(0),args.nextDouble());
 		}else if(command.equals("apply")){
 		    g.applyTransformation();
+		}else if(command.equals("circle")){
+                    args = new Scanner(s.nextLine());
+                    g.drawCircle(args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble());
 		}
-	    }	
+	    }
 	}catch(FileNotFoundException e){
 	    System.out.println("NO FILE HATH BEN FOUND");
 	}
