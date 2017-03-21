@@ -3,6 +3,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.lang.Math;
+//Curves assignement starts at line 413
 
 public class Grafix{
     //instance variables of Grafix
@@ -307,7 +308,6 @@ public class Grafix{
 
     public double[][] makeScaleMatrix(double x, double y, double z){
 	double[][] ret = makeIdentityMatrix();
-	System.out.println(x);
 	ret[0][0] = x;
 	ret[1][1] = y;
 	ret[2][2] = z;
@@ -342,22 +342,27 @@ public class Grafix{
     public void rotate(char axis, double theta){
 	multTransformation(makeRotationMatrix(theta, axis));
     }
+    public double[][] multMatrices(double[][] m1, double[][] m2){
+	double[][] ret = new double[m1.length][m2[0].length];
+        double value;
+        for(int row = 0; row < m1.length; row++){
+            for(int col = 0; col < m2[0].length; col++){
+        	value = 0;
+        	for(int i = 0; i < m1[0].length; i++){
+                    value+=m1[row][i]*m2[i][col];
+        	}
+        	ret[row][col] = value;
+            }
+        }
+	return ret;
+    }
     public void multTransformation(double[][] newMatrix){
-	double value;
-	for(int row = 0; row < 4; row++){
-	    for(int col = 0; col < 4; col++){
-		value = 0;
-		for(int i = 0; i < 4; i++){
-		    value+=newMatrix[row][i]*transformation[i][col];
-		}
-		transformation[row][col] = value;
-	    }
-	}
+	transformation = multMatrices(newMatrix, transformation);
     }
     //displays a matrix
     public void displayMatrix(double[][] mat){
 	for(int i = 0; i < mat.length; i++){
-	    for(int j = 0; j < mat.length; j++){
+	    for(int j = 0; j < mat[0].length; j++){
 		System.out.print(mat[i][j]+" ");
 	    }
 	    System.out.println("");
@@ -414,15 +419,22 @@ public class Grafix{
 	    x = r*Math.cos(t*Math.PI*2)+cx;
 	    y = r*Math.sin(t*Math.PI*2)+cy;
 	    p.addCoor(new Coor(x, y, cz));
-	    System.out.println(t);
 	}
-	p.printCoors();
-	System.out.println("YO");
 	addEdge(p);
+	double[][] m1 = {{3,4,5},{2,1,2},{8,6,5}};
+	double[][] m2 = {{3},{5},{4}};
+	double[][] m3 = multMatrices(m1, m2);
+	displayMatrix(m1);
+	displayMatrix(m2);
+	displayMatrix(m3);
     }
-
-    //Image writing functions
-
+    public void drawHermite(double x0, double y0, double x1, double y1, double rx0, double ry0, double rx1, double ry1){
+	PointList p = new PointList();
+	double x;
+	double y;
+	
+    }
+    //end curves assignment
     //Write function copies the pixels to image file
     public void write(String name){
 	try{
