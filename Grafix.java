@@ -421,18 +421,92 @@ public class Grafix{
 	    p.addCoor(new Coor(x, y, cz));
 	}
 	addEdge(p);
-	double[][] m1 = {{3,4,5},{2,1,2},{8,6,5}};
-	double[][] m2 = {{3},{5},{4}};
-	double[][] m3 = multMatrices(m1, m2);
-	displayMatrix(m1);
-	displayMatrix(m2);
-	displayMatrix(m3);
+    }
+    public double[][] makeHermiteMatrix(){
+	double[][] ret = new double[4][4];
+	ret[0][0] = 2;
+	ret[0][1] = -2;
+	ret[0][2] = 1;
+	ret[0][3] = 1;
+	ret[1][0] = -3;
+	ret[1][1] = 3;
+	ret[1][2] = -2;
+	ret[1][3] = -1;
+	ret[2][0] = 0;
+	ret[2][1] = 0;
+	ret[2][2] = 1;
+	ret[2][3] = 0;
+	ret[3][0] = 1;
+	ret[3][1] = 0;
+	ret[3][2] = 0;
+	ret[3][3] = 0;
+	return ret;
+    }
+    public double[][] makeBezierMatrix(){
+	double[][] ret = new double[4][4];
+	ret[0][0] = -1;
+	ret[0][1] = 3;
+	ret[0][2] = -3;
+	ret[0][3] = 1;
+	ret[1][0] = 3;
+	ret[1][1] = -6;
+	ret[1][2] = 3;
+	ret[1][3] = 0;
+	ret[2][0] = -3;
+	ret[2][1] = 3;
+	ret[2][2] = 0;
+	ret[2][3] = 0;
+	ret[3][0] = 1;
+	ret[3][1] = 0;
+	ret[3][2] = 0;
+	ret[3][3] = 0;
+	return ret;
     }
     public void drawHermite(double x0, double y0, double x1, double y1, double rx0, double ry0, double rx1, double ry1){
 	PointList p = new PointList();
 	double x;
 	double y;
-	
+	double [][] xvals = new double[4][1];
+	xvals[0][0] = x0;
+	xvals[1][0] = x1;
+	xvals[2][0] = rx0;
+	xvals[3][0] = rx1;
+	double [][] yvals = new double[4][1];
+	yvals[0][0] = y0;
+	yvals[1][0] = y1;
+	yvals[2][0] = ry0;
+	yvals[3][0] = ry1;
+	double [][] xco = multMatrices(makeHermiteMatrix(), xvals);
+	double [][] yco = multMatrices(makeHermiteMatrix(), yvals);
+	for(double t = 0; t <= 1.001; t+=.01){
+	    x = xco[0][0]*t*t*t+xco[1][0]*t*t+xco[2][0]*t+xco[3][0];
+	    y = yco[0][0]*t*t*t+yco[1][0]*t*t+yco[2][0]*t+yco[3][0];
+	    p.addCoor(new Coor(x, y, 0));
+	}
+	addEdge(p);
+    }
+    public void drawBezier(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3){
+	PointList p = new PointList();
+	double x;
+	double y;
+	double [][] xvals = new double[4][1];
+	xvals[0][0] = x0;
+	xvals[1][0] = x1;
+	xvals[2][0] = x2;
+	xvals[3][0] = x3;
+	double [][] yvals = new double[4][1];
+	yvals[0][0] = y0;
+	yvals[1][0] = y1;
+	yvals[2][0] = y2;
+	yvals[3][0] = y3;
+	double [][] xco = multMatrices(makeBezierMatrix(), xvals);
+	double [][] yco = multMatrices(makeBezierMatrix(), yvals);
+	for(double t = 0; t <= 1.001; t+=.01){
+	    x = xco[0][0]*t*t*t+xco[1][0]*t*t+xco[2][0]*t+xco[3][0];
+	    y = yco[0][0]*t*t*t+yco[1][0]*t*t+yco[2][0]*t+yco[3][0];
+	    p.addCoor(new Coor(x, y, 0));
+	}
+	addEdge(p);
     }
     //end curves assignment
     //Write function copies the pixels to image file

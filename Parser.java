@@ -54,6 +54,12 @@ public class Parser{
 		}else if(command.equals("circle")){
                     args = new Scanner(s.nextLine());
                     g.drawCircle(args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble());
+		}else if(command.equals("hermite")){
+                    args = new Scanner(s.nextLine());
+                    g.drawHermite(args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble());
+		}else if(command.equals("bezier")){
+                    args = new Scanner(s.nextLine());
+                    g.drawBezier(args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble());
 		}
 	    }
 	}catch(FileNotFoundException e){
